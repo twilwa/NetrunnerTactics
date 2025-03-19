@@ -242,6 +242,9 @@ def handle_claim_territory(data):
     # Claim the territory
     territory["owner"] = data["player_id"]
     
+    # Save to database
+    save_state()
+    
     return territory
 
 # Custom HTTP request handler
@@ -354,8 +357,10 @@ class CyberRunnerHandler(http.server.SimpleHTTPRequestHandler):
         self.wfile.write(response.encode('utf-8'))
 
 def main():
-    # Generate initial territories
-    generate_territories()
+    # Only generate territories if they don't exist yet
+    if not territories:
+        generate_territories()
+        save_state()
     
     try:
         # Create and start the HTTP server
