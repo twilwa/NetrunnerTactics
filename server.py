@@ -11,18 +11,29 @@ import os
 import random
 import time
 from urllib.parse import urlparse, parse_qs
+from replit import db
 
 # Constants
 PORT = 5000
 HOST = "0.0.0.0"
 
-# Game state
-games = []
-next_game_id = 1
-players = []
-next_player_id = 1
-territories = []
-next_territory_id = 1
+# Game state initialized from Replit Database or with defaults
+games = db.get('games', [])
+next_game_id = db.get('next_game_id', 1)
+players = db.get('players', [])
+next_player_id = db.get('next_player_id', 1)
+territories = db.get('territories', [])
+next_territory_id = db.get('next_territory_id', 1)
+
+# Save state function
+def save_state():
+    db['games'] = games
+    db['next_game_id'] = next_game_id
+    db['players'] = players
+    db['next_player_id'] = next_player_id
+    db['territories'] = territories
+    db['next_territory_id'] = next_territory_id
+    print("Game state saved to database")
 
 # Initialize some sample territories
 def generate_territories():
@@ -72,6 +83,9 @@ def handle_register(data):
     players.append(player)
     next_player_id += 1
     
+    # Save to database
+    save_state()
+    
     return player
 
 def handle_get_games():
@@ -114,6 +128,9 @@ def handle_create_game(data):
     games.append(game)
     next_game_id += 1
     
+    # Save to database
+    save_state()
+    
     return game
 
 def handle_join_game(data):
@@ -155,6 +172,9 @@ def handle_join_game(data):
         "faction": data["player"].get("faction", "runner")  # Default to runner if not specified
     })
     
+    # Save to database
+    save_state()
+    
     return game
 
 def handle_start_game(data):
@@ -186,6 +206,9 @@ def handle_start_game(data):
     game["started_at"] = time.time()
     game["turn"] = 1
     game["active_player"] = game["players"][0]["id"]
+    
+    # Save to database
+    save_state()
     
     return game
 
