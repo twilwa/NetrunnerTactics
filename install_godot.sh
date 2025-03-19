@@ -1,28 +1,34 @@
 #!/bin/bash
 
-# Script to download and install Godot engine for the project
-
-# Create the binary directory
+# Create directories
+mkdir -p ~/godot_4.4
 mkdir -p ~/.local/bin
 
-# Output directory for downloaded files
-mkdir -p godot_bin
-
-# Download Godot 4.4 (headless version)
+# Download Godot 4.4 headless version
 echo "Downloading Godot 4.4 headless version..."
-wget -O godot_bin/godot_headless.zip "https://github.com/godotengine/godot/releases/download/4.4-stable/Godot_v4.4-stable_linux_headless.64.zip"
+wget https://github.com/godotengine/godot-builds/releases/download/4.4-stable/Godot_v4.4-stable_linux_headless.64.zip -O godot_4.4_headless.zip
 
-# Unzip the download
-echo "Extracting Godot..."
-unzip -o godot_bin/godot_headless.zip -d godot_bin
+# Extract the archive
+echo "Extracting archive..."
+unzip -o godot_4.4_headless.zip -d ~/godot_4.4
 
-# Move the binary to a standard location
-echo "Installing Godot to ~/.local/bin..."
-cp godot_bin/Godot_v4.4-stable_linux_headless.64 ~/.local/bin/godot
-chmod +x ~/.local/bin/godot
+# Make the binary executable
+echo "Setting permissions..."
+chmod +x ~/godot_4.4/Godot_v4.4-stable_linux_headless.64
+
+# Create a symbolic link
+echo "Creating symlink..."
+ln -sf ~/godot_4.4/Godot_v4.4-stable_linux_headless.64 ~/.local/bin/godot
+
+# Add local bin to PATH if not already there
+if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+    echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc
+    echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.profile
+    export PATH="$HOME/.local/bin:$PATH"
+fi
 
 # Clean up
-echo "Cleaning up..."
-rm -f godot_bin/godot_headless.zip
+rm godot_4.4_headless.zip
 
-echo "Godot 4.4 installed successfully!"
+echo "Godot 4.4 headless has been installed successfully!"
+echo "Run 'godot' to start Godot 4.4 headless server"
