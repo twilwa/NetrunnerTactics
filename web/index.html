@@ -183,15 +183,14 @@
         <div id="login-section" class="content-area">
             <h2>Login to the Network</h2>
             <div class="form-group">
-                <label for="username">Runner Name:</label>
-                <input type="text" id="username" name="username" placeholder="Enter your runner name">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username">
             </div>
             <div class="form-group">
                 <label for="faction">Faction:</label>
                 <select id="faction" name="faction">
-                    <option value="rebel">Rebel Collective</option>
-                    <option value="corporate">Corporate Enforcers</option>
-                    <option value="netwalker">NetWalker Alliance</option>
+                    <option value="runner">Runner</option>
+                    <option value="corp">Corporation</option>
                 </select>
             </div>
             <button id="login-btn">Jack In</button>
@@ -255,7 +254,7 @@
     
     <script>
         // API endpoints
-        const API_BASE = 'http://localhost:5000';
+        const API_BASE = `${window.location.protocol}//${window.location.host}`;
         
         // Game state variables
         let player = null;
@@ -337,7 +336,8 @@
                         max_players: maxPlayers,
                         creator: {
                             id: player.id,
-                            name: player.name
+                            name: player.name,
+                            faction: player.faction
                         }
                     })
                 });
@@ -427,7 +427,7 @@
             const faction = document.getElementById('faction').value;
             
             if (!username) {
-                alert('Please enter a runner name.');
+                alert('Please enter a username.');
                 return;
             }
             

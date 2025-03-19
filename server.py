@@ -108,7 +108,7 @@ def handle_create_game(data):
     game["players"].append({
         "id": data["creator"]["id"],
         "name": data["creator"]["name"],
-        "type": data["creator"]["type"]
+        "faction": data["creator"].get("faction", "runner")  # Default to runner if not specified
     })
     
     games.append(game)
@@ -152,7 +152,7 @@ def handle_join_game(data):
     game["players"].append({
         "id": data["player"]["id"],
         "name": data["player"]["name"],
-        "type": data["player"]["type"]
+        "faction": data["player"].get("faction", "runner")  # Default to runner if not specified
     })
     
     return game
