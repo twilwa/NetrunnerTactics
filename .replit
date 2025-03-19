@@ -59,5 +59,13 @@ PATH = "$HOME/.local/bin:$PATH"
 localPort = 5000
 externalPort = 80
 
+[[ports]]
+localPort = 5001
+externalPort = 3000
+
+[[ports]]
+localPort = 5003
+externalPort = 3001
+
 [objectStorage]
 defaultBucketID = "replit-objstore-8dd23b7f-048f-4ecd-b509-366fb5110d76"

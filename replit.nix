@@ -1,5 +1,6 @@
 {pkgs}: {
   deps = [
+    pkgs.lsof
     pkgs.xorg.libXcursor
     pkgs.xorg.libXinerama
     pkgs.xorg.libXi

@@ -334,10 +334,16 @@ def main():
     # Generate initial territories
     generate_territories()
     
-    # Create and start the HTTP server
-    with socketserver.TCPServer((HOST, PORT), CyberRunnerHandler) as httpd:
+    try:
+        # Create and start the HTTP server
+        httpd = socketserver.TCPServer((HOST, PORT), CyberRunnerHandler)
+        print(f"Server successfully bound to port {PORT}")
         print(f"Server started at http://{HOST}:{PORT}")
         httpd.serve_forever()
+    except Exception as e:
+        print(f"Error starting server: {str(e)}")
+        import sys
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

@@ -254,7 +254,7 @@
     
     <script>
         // API endpoints
-        const API_BASE = `${window.location.protocol}//${window.location.host}`;
+        const API_BASE = `${window.location.protocol}//${window.location.hostname}:5000`;
         
         // Game state variables
         let player = null;
@@ -360,7 +360,8 @@
                         game_id: gameId,
                         player: {
                             id: player.id,
-                            name: player.name
+                            name: player.name,
+                            faction: player.faction
                         }
                     })
                 });
