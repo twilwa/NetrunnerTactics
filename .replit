@@ -1,0 +1,36 @@
+modules = ["godot"]
+
+[nix]
+channel = "stable-24_05"
+
+[workflows]
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "GodotServer"
+
+[[workflows.workflow]]
+name = "GodotServer"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "bash -c 'if [ ! -f ~/.local/bin/godot ]; then bash ./install_godot.sh; fi && ~/.local/bin/godot --headless --port=5000 --http-host=0.0.0.0 --rendering-driver opengl3 project.godot'"
+waitForPort = 5000
+
+[deployment]
+run = ["sh", "-c", "~/.local/bin/godot --headless --port=5000 --rendering-driver opengl3 project.godot"]
+   
+[env]
+PATH = "$HOME/.local/bin:$PATH"

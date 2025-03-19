@@ -1,0 +1,51 @@
+; Engine configuration file
+; Created with Godot Engine 4.0
+; NOTE: This is a sample configuration file for our CyberRunner game
+
+config_version=5
+
+[application]
+config/name="CyberRunner"
+config/description="A multiplayer cyberpunk card game combining Netrunner mechanics with roguelike progression"
+run/main_scene="res://scenes/Main.tscn"
+config/features=PackedStringArray("4.0")
+config/icon="res://icon.svg"
+
+[autoload]
+NetworkManager="*res://scripts/NetworkManager.gd"
+CardDatabase="*res://scripts/CardDatabase.gd"
+GameState="*res://scripts/GameState.gd"
+HttpServer="*res://scripts/HttpServer.gd"
+ProgressionSystem="*res://scripts/ProgressionSystem.gd"
+TerritoryController="*res://scripts/TerritoryController.gd"
+
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/size/resizable=true
+window/handheld/orientation="sensor_landscape"
+window/stretch/mode="viewport"
+window/stretch/aspect="keep_width"
+
+[gui]
+theme/custom="res://assets/styles/cyberpunk_theme.tres"
+
+[input]
+click={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"pressed":false,"double_click":false,"script":null)
+]
+}
+right_click={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":2,"pressed":false,"double_click":false,"script":null)
+]
+}
+
+[rendering]
+renderer/rendering_method="mobile"
+environment/defaults/default_environment="res://default_env.tres"
+quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
+quality/filters/msaa=2
+renderer/rendering_method.server="mobile"

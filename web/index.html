@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberRunner - Territory Control Card Game</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0a0a1a;
+            color: #c0c0ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        header {
+            background-color: #1a1a3a;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 255, 0.3);
+        }
+        
+        h1 {
+            margin: 0;
+            color: #00eeff;
+            text-shadow: 0 0 5px #00eeff;
+        }
+        
+        main {
+            flex: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .content-area {
+            background-color: #1a1a3a;
+            border-radius: 5px;
+            padding: 2rem;
+            box-shadow: 0 2px 15px rgba(0, 255, 255, 0.2);
+        }
+        
+        .game-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .game-item {
+            background-color: #2a2a4a;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .game-name {
+            font-weight: bold;
+            color: #00eeff;
+        }
+        
+        .game-players {
+            color: #aaa;
+        }
+        
+        button {
+            background-color: #4040c0;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: #5050e0;
+            box-shadow: 0 0 10px rgba(80, 80, 255, 0.5);
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #00eeff;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.5rem;
+            background-color: #2a2a4a;
+            border: 1px solid #4a4a6a;
+            border-radius: 3px;
+            color: white;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        
+        .modal-content {
+            background-color: #1a1a3a;
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .section {
+            margin-bottom: 2rem;
+        }
+        
+        .territory-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .territory {
+            background-color: #2a2a4a;
+            border-radius: 5px;
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .territory.owned {
+            background-color: #2a4a2a;
+            border: 1px solid #00ff00;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        footer {
+            background-color: #1a1a3a;
+            padding: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CyberRunner</h1>
+        <p>A Cyberpunk Territory Control Card Game</p>
+    </header>
+    
+    <main>
+        <!-- Login Section -->
+        <div id="login-section" class="content-area">
+            <h2>Login to the Network</h2>
+            <div class="form-group">
+                <label for="username">Runner Name:</label>
+                <input type="text" id="username" name="username" placeholder="Enter your runner name">
+            </div>
+            <div class="form-group">
+                <label for="faction">Faction:</label>
+                <select id="faction" name="faction">
+                    <option value="rebel">Rebel Collective</option>
+                    <option value="corporate">Corporate Enforcers</option>
+                    <option value="netwalker">NetWalker Alliance</option>
+                </select>
+            </div>
+            <button id="login-btn">Jack In</button>
+        </div>
+        
+        <!-- Game Lobby Section (initially hidden) -->
+        <div id="lobby-section" class="content-area hidden">
+            <h2>Game Lobby</h2>
+            <div class="section">
+                <button id="create-game-btn">Create New Game</button>
+            </div>
+            <div class="section">
+                <h3>Available Games</h3>
+                <ul id="game-list" class="game-list">
+                    <!-- Games will be added here dynamically -->
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Game Section (initially hidden) -->
+        <div id="game-section" class="content-area hidden">
+            <h2>Territory Control Grid</h2>
+            <div class="section">
+                <h3>Game Info</h3>
+                <p id="game-info"></p>
+                <p id="turn-info"></p>
+            </div>
+            <div class="section">
+                <h3>Your Territories</h3>
+                <div id="territory-grid" class="territory-grid">
+                    <!-- Territories will be added here dynamically -->
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Create Game Modal -->
+    <div id="create-game-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create New Game</h2>
+            <div class="form-group">
+                <label for="game-name">Game Name:</label>
+                <input type="text" id="game-name" name="game-name" placeholder="Enter a name for your game">
+            </div>
+            <div class="form-group">
+                <label for="max-players">Maximum Players:</label>
+                <select id="max-players" name="max-players">
+                    <option value="2">2 Players</option>
+                    <option value="3">3 Players</option>
+                    <option value="4">4 Players</option>
+                </select>
+            </div>
+            <button id="confirm-create-game">Create Game</button>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 CyberRunner - A Cyberpunk Card Game</p>
+    </footer>
+    
+    <script>
+        // API endpoints
+        const API_BASE = 'http://localhost:5000';
+        
+        // Game state variables
+        let player = null;
+        let currentGame = null;
+        let territories = [];
+        
+        // DOM Elements
+        const loginSection = document.getElementById('login-section');
+        const lobbySection = document.getElementById('lobby-section');
+        const gameSection = document.getElementById('game-section');
+        
+        const loginBtn = document.getElementById('login-btn');
+        const createGameBtn = document.getElementById('create-game-btn');
+        const confirmCreateGameBtn = document.getElementById('confirm-create-game');
+        
+        const createGameModal = document.getElementById('create-game-modal');
+        const closeModalBtn = document.querySelector('.close');
+        
+        const gameList = document.getElementById('game-list');
+        const gameInfo = document.getElementById('game-info');
+        const turnInfo = document.getElementById('turn-info');
+        const territoryGrid = document.getElementById('territory-grid');
+        
+        // Event Listeners
+        loginBtn.addEventListener('click', handleLogin);
+        createGameBtn.addEventListener('click', openCreateGameModal);
+        confirmCreateGameBtn.addEventListener('click', handleCreateGame);
+        closeModalBtn.addEventListener('click', closeCreateGameModal);
+        
+        // Helper Functions
+        function showSection(section) {
+            loginSection.classList.add('hidden');
+            lobbySection.classList.add('hidden');
+            gameSection.classList.add('hidden');
+            
+            section.classList.remove('hidden');
+        }
+        
+        // API Functions
+        async function registerPlayer(username, faction) {
+            try {
+                const response = await fetch(`${API_BASE}/api/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: username,
+                        faction: faction
+                    })
+                });
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Failed to register player:', error);
+                return null;
+            }
+        }
+        
+        async function getGames() {
+            try {
+                const response = await fetch(`${API_BASE}/api/games`);
+                return await response.json();
+            } catch (error) {
+                console.error('Failed to get games:', error);
+                return [];
+            }
+        }
+        
+        async function createGame(name, maxPlayers) {
+            try {
+                const response = await fetch(`${API_BASE}/api/games/create`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        max_players: maxPlayers,
+                        creator: {
+                            id: player.id,
+                            name: player.name
+                        }
+                    })
+                });
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Failed to create game:', error);
+                return null;
+            }
+        }
+        
+        async function joinGame(gameId) {
+            try {
+                const response = await fetch(`${API_BASE}/api/games/join`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        game_id: gameId,
+                        player: {
+                            id: player.id,
+                            name: player.name
+                        }
+                    })
+                });
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Failed to join game:', error);
+                return null;
+            }
+        }
+        
+        async function startGame(gameId) {
+            try {
+                const response = await fetch(`${API_BASE}/api/games/start`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        game_id: gameId
+                    })
+                });
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Failed to start game:', error);
+                return null;
+            }
+        }
+        
+        async function getTerritories() {
+            try {
+                const response = await fetch(`${API_BASE}/api/territories`);
+                return await response.json();
+            } catch (error) {
+                console.error('Failed to get territories:', error);
+                return [];
+            }
+        }
+        
+        async function claimTerritory(territoryId) {
+            try {
+                const response = await fetch(`${API_BASE}/api/territories/claim`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        player_id: player.id,
+                        territory_id: territoryId
+                    })
+                });
+                
+                return await response.json();
+            } catch (error) {
+                console.error('Failed to claim territory:', error);
+                return null;
+            }
+        }
+        
+        // Event Handlers
+        async function handleLogin() {
+            const username = document.getElementById('username').value;
+            const faction = document.getElementById('faction').value;
+            
+            if (!username) {
+                alert('Please enter a runner name.');
+                return;
+            }
+            
+            player = await registerPlayer(username, faction);
+            
+            if (player) {
+                // Load game list
+                loadGameList();
+                showSection(lobbySection);
+            } else {
+                alert('Failed to connect to the network. Please try again.');
+            }
+        }
+        
+        function openCreateGameModal() {
+            createGameModal.style.display = 'block';
+        }
+        
+        function closeCreateGameModal() {
+            createGameModal.style.display = 'none';
+        }
+        
+        async function handleCreateGame() {
+            const gameName = document.getElementById('game-name').value;
+            const maxPlayers = document.getElementById('max-players').value;
+            
+            if (!gameName) {
+                alert('Please enter a game name.');
+                return;
+            }
+            
+            const game = await createGame(gameName, maxPlayers);
+            
+            if (game) {
+                closeCreateGameModal();
+                currentGame = game;
+                
+                // Join the game automatically
+                await loadGame(game);
+            } else {
+                alert('Failed to create game. Please try again.');
+            }
+        }
+        
+        async function handleJoinGame(gameId) {
+            const game = await joinGame(gameId);
+            
+            if (game) {
+                currentGame = game;
+                await loadGame(game);
+            } else {
+                alert('Failed to join game. Please try again.');
+            }
+        }
+        
+        async function handleStartGame() {
+            const game = await startGame(currentGame.id);
+            
+            if (game) {
+                currentGame = game;
+                updateGameInfo();
+            } else {
+                alert('Failed to start game. Please try again.');
+            }
+        }
+        
+        async function handleClaimTerritory(territoryId) {
+            const territory = await claimTerritory(territoryId);
+            
+            if (territory) {
+                // Update the territory
+                for (let i = 0; i < territories.length; i++) {
+                    if (territories[i].id === territory.id) {
+                        territories[i] = territory;
+                        break;
+                    }
+                }
+                
+                // Refresh the grid
+                renderTerritoryGrid();
+            } else {
+                alert('Failed to claim territory. Please try again.');
+            }
+        }
+        
+        // UI Update Functions
+        async function loadGameList() {
+            const games = await getGames();
+            
+            // Clear the list
+            gameList.innerHTML = '';
+            
+            if (games.length === 0) {
+                gameList.innerHTML = '<li>No games available. Create a new one!</li>';
+                return;
+            }
+            
+            // Populate the list
+            games.forEach(game => {
+                const li = document.createElement('li');
+                li.className = 'game-item';
+                
+                li.innerHTML = `
+                    <div>
+                        <span class="game-name">${game.name}</span>
+                        <span class="game-players">(${game.players.length}/${game.max_players} players)</span>
+                    </div>
+                    <button class="join-game-btn" data-id="${game.id}">Join</button>
+                `;
+                
+                gameList.appendChild(li);
+            });
+            
+            // Add event listeners to join buttons
+            document.querySelectorAll('.join-game-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    handleJoinGame(btn.getAttribute('data-id'));
+                });
+            });
+        }
+        
+        async function loadGame(game) {
+            currentGame = game;
+            
+            // Load territories
+            territories = await getTerritories();
+            
+            // Update UI
+            updateGameInfo();
+            renderTerritoryGrid();
+            
+            // Show game section
+            showSection(gameSection);
+        }
+        
+        function updateGameInfo() {
+            if (!currentGame) return;
+            
+            gameInfo.textContent = `Game: ${currentGame.name} (${currentGame.players.length}/${currentGame.max_players} players)`;
+            
+            if (currentGame.state === 'waiting') {
+                turnInfo.innerHTML = `
+                    Waiting for players to join...
+                    <button id="start-game-btn">Start Game</button>
+                `;
+                
+                // Add event listener
+                document.getElementById('start-game-btn').addEventListener('click', handleStartGame);
+            } else if (currentGame.state === 'starting') {
+                turnInfo.textContent = 'Game is starting...';
+            } else if (currentGame.state === 'in_progress') {
+                turnInfo.textContent = 'Game in progress!';
+            }
+        }
+        
+        function renderTerritoryGrid() {
+            // Clear the grid
+            territoryGrid.innerHTML = '';
+            
+            // Get a sample of territories (limit to 10 for now)
+            const sampleTerritories = territories.slice(0, 10);
+            
+            // Populate the grid
+            sampleTerritories.forEach(territory => {
+                const div = document.createElement('div');
+                div.className = `territory ${territory.owner === player.id ? 'owned' : ''}`;
+                
+                div.innerHTML = `
+                    <p>${territory.type}</p>
+                    <p>Strength: ${territory.strength}</p>
+                    <p>Resources: ${territory.resources}</p>
+                    ${territory.owner === null ? '<button class="claim-btn">Claim</button>' : ''}
+                `;
+                
+                if (territory.owner === null) {
+                    div.querySelector('.claim-btn').addEventListener('click', () => {
+                        handleClaimTerritory(territory.id);
+                    });
+                }
+                
+                territoryGrid.appendChild(div);
+            });
+        }
+        
+        // Initialize
+        showSection(loginSection);
+        
+        // Close modal when clicking outside of it
+        window.addEventListener('click', (event) => {
+            if (event.target === createGameModal) {
+                closeCreateGameModal();
+            }
+        });
+    </script>
+</body>
+</html>

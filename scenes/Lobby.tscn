@@ -1,0 +1,290 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/Lobby.gd" id="1_0xtpo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rbdh5"]
+bg_color = Color(0.121569, 0.121569, 0.14902, 0.941176)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.639216, 0.909804, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5kuft"]
+content_margin_left = 8
+content_margin_top = 8
+content_margin_right = 8
+content_margin_bottom = 8
+bg_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.215686, 0.215686, 0.25098, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0xtpo")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0784314, 0.0784314, 0.0784314, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeaderPanel" type="Panel" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rbdh5")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HeaderPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HeaderPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.639216, 0.909804, 1)
+theme_override_font_sizes/font_size = 24
+text = "CYBERRUNNER NETWORK"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 250
+
+[node name="ProfilePanel" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5kuft")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/ProfilePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="ProfileLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/ProfilePanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.639216, 0.909804, 1)
+theme_override_font_sizes/font_size = 18
+text = "YOUR PROFILE"
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/HSplitContainer/ProfilePanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="UsernameLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/ProfilePanel/VBoxContainer"]
+layout_mode = 2
+text = "HANDLE: [Player Name]"
+
+[node name="FactionLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/ProfilePanel/VBoxContainer"]
+layout_mode = 2
+text = "FACTION: [Faction]"
+
+[node name="LevelLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/ProfilePanel/VBoxContainer"]
+layout_mode = 2
+text = "LEVEL: 1"
+
+[node name="ExperienceBar" type="ProgressBar" parent="MarginContainer/VBoxContainer/HSplitContainer/ProfilePanel/VBoxContainer"]
+layout_mode = 2
+max_value = 100.0
+value = 25.0
+show_percentage = false
+
+[node name="ExperienceLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/ProfilePanel/VBoxContainer/ExperienceBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "EXP: 25/100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer/HSplitContainer/ProfilePanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="DeckBuilderButton" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/ProfilePanel/VBoxContainer"]
+layout_mode = 2
+text = "DECK BUILDER"
+
+[node name="TerritoryButton" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/ProfilePanel/VBoxContainer"]
+layout_mode = 2
+text = "TERRITORY MAP"
+
+[node name="VerticalSpacer" type="Control" parent="MarginContainer/VBoxContainer/HSplitContainer/ProfilePanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LogoutButton" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/ProfilePanel/VBoxContainer"]
+layout_mode = 2
+text = "LOGOUT"
+
+[node name="GamesPanel" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_5kuft")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="GamesLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.639216, 0.909804, 1)
+theme_override_font_sizes/font_size = 18
+text = "AVAILABLE GAMES"
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="GamesList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+
+[node name="GameEntryPlaceholder" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer/ScrollContainer/GamesList"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer/ScrollContainer/GamesList/GameEntryPlaceholder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer/ScrollContainer/GamesList/GameEntryPlaceholder/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer/ScrollContainer/GamesList/GameEntryPlaceholder/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="GameNameLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer/ScrollContainer/GamesList/GameEntryPlaceholder/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.639216, 0.909804, 1)
+text = "Game Name"
+
+[node name="PlayersLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer/ScrollContainer/GamesList/GameEntryPlaceholder/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Players: 1/4"
+
+[node name="StatusLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer/ScrollContainer/GamesList/GameEntryPlaceholder/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Status: Waiting for players"
+
+[node name="JoinButton" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer/ScrollContainer/GamesList/GameEntryPlaceholder/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+text = "JOIN"
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="RefreshButton" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "REFRESH"
+
+[node name="Spacer" type="Control" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CreateGameButton" type="Button" parent="MarginContainer/VBoxContainer/HSplitContainer/GamesPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "CREATE NEW GAME"
+
+[node name="CreateGameDialog" type="ConfirmationDialog" parent="."]
+title = "Create New Game"
+size = Vector2i(400, 200)
+ok_button_text = "Create"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CreateGameDialog"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 392.0
+offset_bottom = 151.0
+theme_override_constants/separation = 12
+
+[node name="GameNameLabel" type="Label" parent="CreateGameDialog/VBoxContainer"]
+layout_mode = 2
+text = "Game Name:"
+
+[node name="GameNameInput" type="LineEdit" parent="CreateGameDialog/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter game name..."
+
+[node name="MaxPlayersLabel" type="Label" parent="CreateGameDialog/VBoxContainer"]
+layout_mode = 2
+text = "Max Players:"
+
+[node name="MaxPlayersSpinBox" type="SpinBox" parent="CreateGameDialog/VBoxContainer"]
+layout_mode = 2
+min_value = 2.0
+max_value = 4.0
+value = 2.0

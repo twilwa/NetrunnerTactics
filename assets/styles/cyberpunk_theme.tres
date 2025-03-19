@@ -1,0 +1,122 @@
+[gd_resource type="Theme" format=3]
+
+[resource]
+AcceptDialog/styles/panel = null
+
+Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+Button/colors/font_color_disabled = Color(0.4, 0.4, 0.4, 1)
+Button/colors/font_color_hover = Color(0, 0.639216, 0.909804, 1)
+Button/colors/font_color_pressed = Color(0.388235, 0.956863, 1, 1)
+
+Button/constants/hseparation = 2
+
+Button/styles/disabled = null
+Button/styles/focus = null
+Button/styles/hover = null
+Button/styles/normal = null
+Button/styles/pressed = null
+
+CheckBox/colors/font_color = Color(0.88, 0.88, 0.88, 1)
+CheckBox/colors/font_color_disabled = Color(0.4, 0.4, 0.4, 1)
+CheckBox/colors/font_color_hover = Color(0, 0.639216, 0.909804, 1)
+CheckBox/colors/font_color_pressed = Color(0.388235, 0.956863, 1, 1)
+
+HScrollBar/styles/grabber = null
+HScrollBar/styles/grabber_highlight = null
+HScrollBar/styles/grabber_pressed = null
+HScrollBar/styles/scroll = null
+HScrollBar/styles/scroll_focus = null
+
+HSeparator/constants/separation = 4
+HSeparator/styles/separator = null
+
+HSplitContainer/constants/autohide = 1
+HSplitContainer/constants/separation = 12
+
+ItemList/colors/font_color = Color(0.875, 0.875, 0.875, 1)
+ItemList/colors/font_color_selected = Color(0, 0.639216, 0.909804, 1)
+ItemList/colors/guide_color = Color(0, 0, 0, 0.1)
+
+ItemList/constants/hseparation = 4
+ItemList/constants/icon_margin = 4
+ItemList/constants/line_separation = 2
+ItemList/constants/vseparation = 2
+
+ItemList/styles/bg = null
+ItemList/styles/bg_focus = null
+ItemList/styles/cursor = null
+ItemList/styles/cursor_unfocused = null
+ItemList/styles/selected = null
+ItemList/styles/selected_focus = null
+
+Label/colors/font_color = Color(0.85, 0.85, 0.85, 1)
+Label/colors/font_color_shadow = Color(0, 0, 0, 0)
+
+LineEdit/colors/clear_button_color = Color(0.88, 0.88, 0.88, 1)
+LineEdit/colors/clear_button_color_pressed = Color(0.388235, 0.956863, 1, 1)
+LineEdit/colors/cursor_color = Color(0, 0.639216, 0.909804, 1)
+LineEdit/colors/font_color = Color(0.88, 0.88, 0.88, 1)
+LineEdit/colors/font_color_selected = Color(0, 0, 0, 1)
+LineEdit/colors/font_color_uneditable = Color(0.88, 0.88, 0.88, 0.5)
+LineEdit/colors/selection_color = Color(0, 0.639216, 0.909804, 0.4)
+
+LineEdit/constants/minimum_spaces = 12
+
+LineEdit/styles/focus = null
+LineEdit/styles/normal = null
+LineEdit/styles/read_only = null
+
+Panel/styles/panel = null
+PanelContainer/styles/panel = null
+
+PopupMenu/colors/font_color = Color(0.88, 0.88, 0.88, 1)
+PopupMenu/colors/font_color_accel = Color(0.7, 0.7, 0.7, 0.8)
+PopupMenu/colors/font_color_disabled = Color(0.4, 0.4, 0.4, 0.8)
+PopupMenu/colors/font_color_hover = Color(0, 0.639216, 0.909804, 1)
+
+PopupMenu/constants/hseparation = 4
+PopupMenu/constants/vseparation = 4
+
+PopupMenu/styles/hover = null
+PopupMenu/styles/labeled_separator_left = null
+PopupMenu/styles/labeled_separator_right = null
+PopupMenu/styles/panel = null
+PopupMenu/styles/panel_disabled = null
+PopupMenu/styles/separator = null
+
+ProgressBar/colors/font_color = Color(0.94, 0.94, 0.94, 1)
+ProgressBar/colors/font_color_shadow = Color(0, 0, 0, 1)
+
+ProgressBar/styles/bg = null
+ProgressBar/styles/fg = null
+
+ScrollContainer/styles/bg = null
+
+SpinBox/icons/updown = null
+
+TabContainer/colors/font_color_bg = Color(0.69, 0.69, 0.69, 1)
+TabContainer/colors/font_color_disabled = Color(0.4, 0.4, 0.4, 1)
+TabContainer/colors/font_color_fg = Color(0, 0.639216, 0.909804, 1)
+
+TabContainer/constants/hseparation = 4
+TabContainer/constants/label_valign_bg = 2
+TabContainer/constants/label_valign_fg = 0
+TabContainer/constants/side_margin = 8
+TabContainer/constants/top_margin = 24
+
+TabContainer/styles/panel = null
+TabContainer/styles/tab_bg = null
+TabContainer/styles/tab_disabled = null
+TabContainer/styles/tab_fg = null
+
+VScrollBar/styles/grabber = null
+VScrollBar/styles/grabber_highlight = null
+VScrollBar/styles/grabber_pressed = null
+VScrollBar/styles/scroll = null
+VScrollBar/styles/scroll_focus = null
+
+VSeparator/constants/separation = 4
+VSeparator/styles/separator = null
+
+VSplitContainer/constants/autohide = 1
+VSplitContainer/constants/separation = 12

@@ -1,0 +1,502 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/GameBoard.gd" id="1_cepxq"]
+[ext_resource type="PackedScene" path="res://scenes/CardDisplay.tscn" id="2_l21ud"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jefk8"]
+bg_color = Color(0.0784314, 0.0784314, 0.0941176, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.639216, 0.909804, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b8f72"]
+bg_color = Color(0.0784314, 0.0784314, 0.0941176, 0.921569)
+
+[node name="GameBoard" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cepxq")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0588235, 0.0588235, 0.0588235, 1)
+
+[node name="GameGrid" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameGrid"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OpponentArea" type="Control" parent="GameGrid/VBoxContainer"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+
+[node name="OpponentPanel" type="Panel" parent="GameGrid/VBoxContainer/OpponentArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jefk8")
+
+[node name="MarginContainer" type="MarginContainer" parent="GameGrid/VBoxContainer/OpponentArea/OpponentPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameGrid/VBoxContainer/OpponentArea/OpponentPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="OpponentInfo" type="HBoxContainer" parent="GameGrid/VBoxContainer/OpponentArea/OpponentPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="GameGrid/VBoxContainer/OpponentArea/OpponentPanel/MarginContainer/VBoxContainer/OpponentInfo"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.639216, 0.909804, 1)
+theme_override_font_sizes/font_size = 18
+text = "Opponent Name"
+
+[node name="TypeLabel" type="Label" parent="GameGrid/VBoxContainer/OpponentArea/OpponentPanel/MarginContainer/VBoxContainer/OpponentInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+text = "(Corp/Runner)"
+horizontal_alignment = 2
+
+[node name="ResourceInfo" type="HBoxContainer" parent="GameGrid/VBoxContainer/OpponentArea/OpponentPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CreditsLabel" type="Label" parent="GameGrid/VBoxContainer/OpponentArea/OpponentPanel/MarginContainer/VBoxContainer/ResourceInfo"]
+layout_mode = 2
+text = "Credits: 5"
+
+[node name="ClicksLabel" type="Label" parent="GameGrid/VBoxContainer/OpponentArea/OpponentPanel/MarginContainer/VBoxContainer/ResourceInfo"]
+layout_mode = 2
+theme_override_constants/line_spacing = 20
+text = "Clicks: 0"
+
+[node name="CardsLabel" type="Label" parent="GameGrid/VBoxContainer/OpponentArea/OpponentPanel/MarginContainer/VBoxContainer/ResourceInfo"]
+layout_mode = 2
+text = "Cards: 5"
+
+[node name="HSeparator" type="HSeparator" parent="GameGrid/VBoxContainer/OpponentArea/OpponentPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="OpponentCards" type="HBoxContainer" parent="GameGrid/VBoxContainer/OpponentArea/OpponentPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="MiddleArea" type="Control" parent="GameGrid/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ServersPanel" type="Panel" parent="GameGrid/VBoxContainer/MiddleArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="GameGrid/VBoxContainer/MiddleArea/ServersPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GameGrid/VBoxContainer/MiddleArea/ServersPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="CentralServers" type="VBoxContainer" parent="GameGrid/VBoxContainer/MiddleArea/ServersPanel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="CentralServersLabel" type="Label" parent="GameGrid/VBoxContainer/MiddleArea/ServersPanel/MarginContainer/HBoxContainer/CentralServers"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.639216, 0.909804, 1)
+text = "CENTRAL SERVERS"
+horizontal_alignment = 1
+
+[node name="HQ" type="Panel" parent="GameGrid/VBoxContainer/MiddleArea/ServersPanel/MarginContainer/HBoxContainer/CentralServers"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GameGrid/VBoxContainer/MiddleArea/ServersPanel/MarginContainer/HBoxContainer/CentralServers/HQ"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "HQ"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RD" type="Panel" parent="GameGrid/VBoxContainer/MiddleArea/ServersPanel/MarginContainer/HBoxContainer/CentralServers"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GameGrid/VBoxContainer/MiddleArea/ServersPanel/MarginContainer/HBoxContainer/CentralServers/RD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "R&D"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Archives" type="Panel" parent="GameGrid/VBoxContainer/MiddleArea/ServersPanel/MarginContainer/HBoxContainer/CentralServers"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GameGrid/VBoxContainer/MiddleArea/ServersPanel/MarginContainer/HBoxContainer/CentralServers/Archives"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "ARCHIVES"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RemoteServers" type="VBoxContainer" parent="GameGrid/VBoxContainer/MiddleArea/ServersPanel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="RemoteServersLabel" type="Label" parent="GameGrid/VBoxContainer/MiddleArea/ServersPanel/MarginContainer/HBoxContainer/RemoteServers"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.639216, 0.909804, 1)
+text = "REMOTE SERVERS"
+horizontal_alignment = 1
+
+[node name="RemoteServersContainer" type="GridContainer" parent="GameGrid/VBoxContainer/MiddleArea/ServersPanel/MarginContainer/HBoxContainer/RemoteServers"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="Remote1" type="Panel" parent="GameGrid/VBoxContainer/MiddleArea/ServersPanel/MarginContainer/HBoxContainer/RemoteServers/RemoteServersContainer"]
+custom_minimum_size = Vector2(195, 80)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GameGrid/VBoxContainer/MiddleArea/ServersPanel/MarginContainer/HBoxContainer/RemoteServers/RemoteServersContainer/Remote1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "REMOTE 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerArea" type="Control" parent="GameGrid/VBoxContainer"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+
+[node name="PlayerPanel" type="Panel" parent="GameGrid/VBoxContainer/PlayerArea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jefk8")
+
+[node name="MarginContainer" type="MarginContainer" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel/MarginContainer"]
+layout_mode = 2
+
+[node name="PlayerInfo" type="HBoxContainer" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel/MarginContainer/VBoxContainer/PlayerInfo"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.639216, 0.909804, 1)
+theme_override_font_sizes/font_size = 18
+text = "Your Name"
+
+[node name="TypeLabel" type="Label" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel/MarginContainer/VBoxContainer/PlayerInfo"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+text = "(Corp/Runner)"
+horizontal_alignment = 2
+
+[node name="ResourceInfo" type="HBoxContainer" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CreditsLabel" type="Label" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel/MarginContainer/VBoxContainer/ResourceInfo"]
+layout_mode = 2
+text = "Credits: 5"
+
+[node name="ClicksLabel" type="Label" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel/MarginContainer/VBoxContainer/ResourceInfo"]
+layout_mode = 2
+theme_override_constants/line_spacing = 20
+text = "Clicks: 4"
+
+[node name="CardsLabel" type="Label" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel/MarginContainer/VBoxContainer/ResourceInfo"]
+layout_mode = 2
+text = "Cards: 5"
+
+[node name="HSeparator" type="HSeparator" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PlayerCards" type="HBoxContainer" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="CardPlaceholder" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel/MarginContainer/VBoxContainer/PlayerCards" instance=ExtResource("2_l21ud")]
+layout_mode = 2
+
+[node name="CardPlaceholder2" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel/MarginContainer/VBoxContainer/PlayerCards" instance=ExtResource("2_l21ud")]
+layout_mode = 2
+
+[node name="CardPlaceholder3" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel/MarginContainer/VBoxContainer/PlayerCards" instance=ExtResource("2_l21ud")]
+layout_mode = 2
+
+[node name="CardPlaceholder4" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel/MarginContainer/VBoxContainer/PlayerCards" instance=ExtResource("2_l21ud")]
+layout_mode = 2
+
+[node name="CardPlaceholder5" parent="GameGrid/VBoxContainer/PlayerArea/PlayerPanel/MarginContainer/VBoxContainer/PlayerCards" instance=ExtResource("2_l21ud")]
+layout_mode = 2
+
+[node name="ActionPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -70.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_b8f72")
+
+[node name="MarginContainer" type="MarginContainer" parent="ActionPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ActionButtons" type="HBoxContainer" parent="ActionPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="DrawButton" type="Button" parent="ActionPanel/MarginContainer/ActionButtons"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "DRAW"
+
+[node name="GainCreditButton" type="Button" parent="ActionPanel/MarginContainer/ActionButtons"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "GAIN CREDIT"
+
+[node name="InstallButton" type="Button" parent="ActionPanel/MarginContainer/ActionButtons"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "INSTALL"
+
+[node name="PlayButton" type="Button" parent="ActionPanel/MarginContainer/ActionButtons"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "PLAY"
+
+[node name="RunButton" type="Button" parent="ActionPanel/MarginContainer/ActionButtons"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "RUN"
+
+[node name="EndTurnButton" type="Button" parent="ActionPanel/MarginContainer/ActionButtons"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+text = "END TURN"
+
+[node name="ActionTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="RunDialog" type="ConfirmationDialog" parent="."]
+title = "Choose Server to Run"
+size = Vector2i(400, 200)
+ok_button_text = "Run!"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RunDialog"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 392.0
+offset_bottom = 151.0
+
+[node name="Label" type="Label" parent="RunDialog/VBoxContainer"]
+layout_mode = 2
+text = "Choose a server to run on:"
+
+[node name="ServerList" type="ItemList" parent="RunDialog/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+item_count = 4
+item_0/text = "HQ"
+item_1/text = "R&D"
+item_2/text = "Archives"
+item_3/text = "Remote 1"
+
+[node name="InstallDialog" type="ConfirmationDialog" parent="."]
+title = "Install Card"
+size = Vector2i(400, 250)
+ok_button_text = "Install"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InstallDialog"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 392.0
+offset_bottom = 201.0
+
+[node name="CardLabel" type="Label" parent="InstallDialog/VBoxContainer"]
+layout_mode = 2
+text = "Install card: Card Name"
+
+[node name="CostLabel" type="Label" parent="InstallDialog/VBoxContainer"]
+layout_mode = 2
+text = "Cost: 3 credits"
+
+[node name="HSeparator" type="HSeparator" parent="InstallDialog/VBoxContainer"]
+layout_mode = 2
+
+[node name="ServerLabel" type="Label" parent="InstallDialog/VBoxContainer"]
+layout_mode = 2
+text = "Choose a server:"
+
+[node name="ServerList" type="ItemList" parent="InstallDialog/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+item_count = 4
+item_0/text = "HQ"
+item_1/text = "R&D"
+item_2/text = "Archives"
+item_3/text = "Remote 1"
+
+[node name="GameOverPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jefk8")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOverPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="GameOverLabel" type="Label" parent="GameOverPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.639216, 0.909804, 1)
+theme_override_font_sizes/font_size = 32
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="ResultLabel" type="Label" parent="GameOverPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "You Won!"
+horizontal_alignment = 1
+
+[node name="RewardLabel" type="Label" parent="GameOverPanel/VBoxContainer"]
+layout_mode = 2
+text = "Rewards:"
+horizontal_alignment = 1
+
+[node name="XPLabel" type="Label" parent="GameOverPanel/VBoxContainer"]
+layout_mode = 2
+text = "Experience: +100 XP"
+horizontal_alignment = 1
+
+[node name="TerritoryLabel" type="Label" parent="GameOverPanel/VBoxContainer"]
+layout_mode = 2
+text = "Territory Gained: Sector 3-4"
+horizontal_alignment = 1
+
+[node name="ContinueButton" type="Button" parent="GameOverPanel/VBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "CONTINUE"

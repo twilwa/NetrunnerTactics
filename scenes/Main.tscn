@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/Main.gd" id="1_kk9vb"]
+[ext_resource type="PackedScene" path="res://scenes/Login.tscn" id="2_v9mf8"]
+[ext_resource type="PackedScene" path="res://scenes/Lobby.tscn" id="3_w6v45"]
+[ext_resource type="PackedScene" path="res://scenes/DeckBuilder.tscn" id="4_7m5u3"]
+[ext_resource type="PackedScene" path="res://scenes/TerritoryMap.tscn" id="5_n1ftk"]
+[ext_resource type="PackedScene" path="res://scenes/GameBoard.tscn" id="6_h8f9r"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kk9vb")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0784314, 0.0784314, 0.0784314, 1)
+
+[node name="Login" parent="." instance=ExtResource("2_v9mf8")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Lobby" parent="." instance=ExtResource("3_w6v45")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DeckBuilder" parent="." instance=ExtResource("4_7m5u3")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TerritoryMap" parent="." instance=ExtResource("5_n1ftk")]
+visible = false
+
+[node name="GameBoard" parent="." instance=ExtResource("6_h8f9r")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

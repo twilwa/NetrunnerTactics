@@ -1,0 +1,376 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/DeckBuilder.gd" id="1_t0g3d"]
+[ext_resource type="PackedScene" path="res://scenes/CardDisplay.tscn" id="2_y0xkh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ysjha"]
+bg_color = Color(0.0784314, 0.0784314, 0.0941176, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0.639216, 0.909804, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="DeckBuilder" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t0g3d")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0588235, 0.0588235, 0.0588235, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeaderPanel" type="Panel" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ysjha")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HeaderPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/HeaderPanel/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.639216, 0.909804, 1)
+theme_override_font_sizes/font_size = 24
+text = "DECK BUILDER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 300
+
+[node name="LeftPanel" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="DeckInfoPanel" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer/LeftPanel"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ysjha")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/LeftPanel/DeckInfoPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/LeftPanel/DeckInfoPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/LeftPanel/DeckInfoPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="DeckNameLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/LeftPanel/DeckInfoPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.639216, 0.909804, 1)
+theme_override_font_sizes/font_size = 18
+text = "Deck Name:"
+
+[node name="DeckNameInput" type="LineEdit" parent="MarginContainer/VBoxContainer/HSplitContainer/LeftPanel/DeckInfoPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter deck name..."
+
+[node name="DeckStatsLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/LeftPanel/DeckInfoPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Cards: 0/45   Identity: None"
+
+[node name="DeckListPanel" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer/LeftPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ysjha")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/LeftPanel/DeckListPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/LeftPanel/DeckListPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DeckListLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/LeftPanel/DeckListPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.639216, 0.909804, 1)
+text = "DECK LIST"
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/HSplitContainer/LeftPanel/DeckListPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/LeftPanel/DeckListPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="DeckList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/LeftPanel/DeckListPanel/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="RightPanel" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="FilterPanel" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ysjha")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/FilterPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/FilterPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="FilterLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/FilterPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.639216, 0.909804, 1)
+text = "FILTERS"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/FilterPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SearchInput" type="LineEdit" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/FilterPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Search cards..."
+
+[node name="TypeOptionButton" type="OptionButton" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/FilterPanel/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+item_count = 7
+selected = 0
+popup/item_0/text = "All Types"
+popup/item_0/id = 0
+popup/item_1/text = "Ice"
+popup/item_1/id = 1
+popup/item_2/text = "Program"
+popup/item_2/id = 2
+popup/item_3/text = "Hardware"
+popup/item_3/id = 3
+popup/item_4/text = "Resource"
+popup/item_4/id = 4
+popup/item_5/text = "Operation"
+popup/item_5/id = 5
+popup/item_6/text = "Event"
+popup/item_6/id = 6
+
+[node name="CardBrowserPanel" type="Panel" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ysjha")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/CardBrowserPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/CardBrowserPanel/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="CardBrowserLabel" type="Label" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/CardBrowserPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.639216, 0.909804, 1)
+text = "AVAILABLE CARDS"
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/CardBrowserPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/CardBrowserPanel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="CardGrid" type="GridContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/CardBrowserPanel/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 3
+
+[node name="CardPlaceholder" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/CardBrowserPanel/MarginContainer/VBoxContainer/ScrollContainer/CardGrid" instance=ExtResource("2_y0xkh")]
+layout_mode = 2
+
+[node name="CardPlaceholder2" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/CardBrowserPanel/MarginContainer/VBoxContainer/ScrollContainer/CardGrid" instance=ExtResource("2_y0xkh")]
+layout_mode = 2
+
+[node name="CardPlaceholder3" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/CardBrowserPanel/MarginContainer/VBoxContainer/ScrollContainer/CardGrid" instance=ExtResource("2_y0xkh")]
+layout_mode = 2
+
+[node name="CardPlaceholder4" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/CardBrowserPanel/MarginContainer/VBoxContainer/ScrollContainer/CardGrid" instance=ExtResource("2_y0xkh")]
+layout_mode = 2
+
+[node name="CardPlaceholder5" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/CardBrowserPanel/MarginContainer/VBoxContainer/ScrollContainer/CardGrid" instance=ExtResource("2_y0xkh")]
+layout_mode = 2
+
+[node name="CardPlaceholder6" parent="MarginContainer/VBoxContainer/HSplitContainer/RightPanel/CardBrowserPanel/MarginContainer/VBoxContainer/ScrollContainer/CardGrid" instance=ExtResource("2_y0xkh")]
+layout_mode = 2
+
+[node name="ButtonPanel" type="Panel" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ysjha")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/ButtonPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="BackButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonPanel/HBoxContainer"]
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_vertical = 4
+text = "BACK"
+
+[node name="ClearButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonPanel/HBoxContainer"]
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_vertical = 4
+text = "CLEAR DECK"
+
+[node name="SaveButton" type="Button" parent="MarginContainer/VBoxContainer/ButtonPanel/HBoxContainer"]
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_vertical = 4
+text = "SAVE DECK"
+
+[node name="CardDialog" type="ConfirmationDialog" parent="."]
+title = "Card Details"
+size = Vector2i(400, 400)
+ok_button_text = "Add to Deck"
+dialog_hide_on_ok = false
+cancel_button_text = "Close"
+
+[node name="MarginContainer" type="MarginContainer" parent="CardDialog"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 392.0
+offset_bottom = 351.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CardDialog/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="TitleLabel" type="Label" parent="CardDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.639216, 0.909804, 1)
+theme_override_font_sizes/font_size = 18
+text = "Card Title"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="CardDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TypeLabel" type="Label" parent="CardDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Type: Program - Icebreaker"
+
+[node name="CostLabel" type="Label" parent="CardDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Cost: 2"
+
+[node name="StatsLabel" type="Label" parent="CardDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Strength: 2, Memory: 1"
+
+[node name="HSeparator2" type="HSeparator" parent="CardDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextLabel" type="Label" parent="CardDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Card text goes here with all abilities and flavor text."
+autowrap_mode = 2
+
+[node name="HSeparator3" type="HSeparator" parent="CardDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="AmountLabel" type="Label" parent="CardDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Amount in deck: 0/3"
+
+[node name="AmountSpinBox" type="SpinBox" parent="CardDialog/MarginContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 3.0
+alignment = 1
