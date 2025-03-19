@@ -1,5 +1,6 @@
 {pkgs}: {
   deps = [
+    pkgs.postgresql
     pkgs.lsof
     pkgs.xorg.libXcursor
     pkgs.xorg.libXinerama

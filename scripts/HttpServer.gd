@@ -5,7 +5,7 @@ extends Node
 # multiplayer game functionality over the web using Godot's built-in
 # HTTP server classes
 
-const PORT = 5000
+const PORT = 8000
 
 var http_server
 var games = []

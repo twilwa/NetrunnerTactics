@@ -10,56 +10,131 @@ import json
 import os
 import random
 import time
+import datetime
+import psycopg2
+import psycopg2.extras
 from urllib.parse import urlparse, parse_qs
-from replit import db
+
+# Custom JSON encoder to handle datetime objects
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, datetime.datetime):
+            return o.isoformat()
+        return super().default(o)
 
 # Constants
 PORT = 5000
 HOST = "0.0.0.0"
 
-# Game state initialized from Replit Database or with defaults
-games = db.get('games', [])
-next_game_id = db.get('next_game_id', 1)
-players = db.get('players', [])
-next_player_id = db.get('next_player_id', 1)
-territories = db.get('territories', [])
-next_territory_id = db.get('next_territory_id', 1)
+# PostgreSQL connection
+def get_db_connection():
+    conn = psycopg2.connect(os.environ['DATABASE_URL'])
+    conn.autocommit = True
+    return conn
 
-# Save state function
-def save_state():
-    db['games'] = games
-    db['next_game_id'] = next_game_id
-    db['players'] = players
-    db['next_player_id'] = next_player_id
-    db['territories'] = territories
-    db['next_territory_id'] = next_territory_id
-    print("Game state saved to database")
+# DB utility functions
+def get_player_by_id(player_id):
+    with get_db_connection() as conn:
+        with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+            cur.execute("SELECT * FROM players WHERE id = %s", (player_id,))
+            return cur.fetchone()
 
-# Initialize some sample territories
+def get_game_by_id(game_id):
+    with get_db_connection() as conn:
+        with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+            cur.execute("SELECT * FROM games WHERE id = %s", (game_id,))
+            game = cur.fetchone()
+            
+            if game:
+                # Get players in this game
+                cur.execute("""
+                    SELECT p.* FROM players p
+                    JOIN game_players gp ON p.id = gp.player_id
+                    WHERE gp.game_id = %s
+                """, (game_id,))
+                players = cur.fetchall()
+                
+                # Convert to dictionary with players list
+                game_dict = dict(game)
+                game_dict['players'] = [dict(p) for p in players]
+                return game_dict
+            
+            return None
+
+def get_territory_by_id(territory_id):
+    with get_db_connection() as conn:
+        with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+            cur.execute("SELECT * FROM territories WHERE id = %s", (territory_id,))
+            territory = cur.fetchone()
+            if territory:
+                return dict(territory)
+            return None
+
+def get_all_games():
+    with get_db_connection() as conn:
+        with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+            cur.execute("SELECT * FROM games ORDER BY created_at DESC")
+            games = cur.fetchall()
+            
+            # For each game, get its players
+            result = []
+            for game in games:
+                game_dict = dict(game)
+                
+                cur.execute("""
+                    SELECT p.* FROM players p
+                    JOIN game_players gp ON p.id = gp.player_id
+                    WHERE gp.game_id = %s
+                """, (game['id'],))
+                players = cur.fetchall()
+                
+                game_dict['players'] = [dict(p) for p in players]
+                result.append(game_dict)
+                
+            return result
+
+def get_all_territories():
+    with get_db_connection() as conn:
+        with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+            cur.execute("SELECT * FROM territories ORDER BY id")
+            territories = cur.fetchall()
+            return [dict(t) for t in territories]
+
+# Initialize sample territories
 def generate_territories():
-    global territories, next_territory_id
-    
     # Territory types
     types = ["Datacenter", "Corporate", "Industrial", "Residential", "Financial"]
     
-    # Create 10 sample territories
-    for i in range(10):
-        territory = {
-            "id": next_territory_id,
-            "name": f"Territory {next_territory_id}",
-            "type": random.choice(types),
-            "strength": random.randint(1, 5),
-            "resources": random.randint(1, 3),
-            "owner": None,
-            "coords": {"x": random.randint(0, 10), "y": random.randint(0, 10)}
-        }
-        territories.append(territory)
-        next_territory_id += 1
+    with get_db_connection() as conn:
+        with conn.cursor() as cur:
+            # Check if territories already exist
+            cur.execute("SELECT COUNT(*) FROM territories")
+            count = cur.fetchone()[0]
+            
+            if count > 0:
+                print(f"Territories already exist in database ({count} territories)")
+                return
+                
+            # Create 10 sample territories
+            print("Generating sample territories...")
+            for i in range(10):
+                name = f"Territory {i+1}"
+                territory_type = random.choice(types)
+                strength = random.randint(1, 5)
+                resources = random.randint(1, 3)
+                x_coord = random.randint(0, 10)
+                y_coord = random.randint(0, 10)
+                
+                cur.execute("""
+                    INSERT INTO territories 
+                    (name, type, strength, resources, x_coord, y_coord) 
+                    VALUES (%s, %s, %s, %s, %s, %s)
+                """, (name, territory_type, strength, resources, x_coord, y_coord))
+                
+            print("Sample territories created successfully")
 
 # API request handlers
 def handle_register(data):
-    global players, next_player_id
-    
     print(f"Registering player: {data}")
     
     # Validate data
@@ -69,31 +144,34 @@ def handle_register(data):
     if "faction" not in data or not data["faction"].strip():
         return {"error": "Invalid faction"}
     
-    # Create player data
-    player = {
-        "id": str(next_player_id),
-        "name": data["name"],
-        "faction": data["faction"],
-        "level": 1,
-        "experience": 0,
-        "territories": [],
-        "decks": []
-    }
-    
-    players.append(player)
-    next_player_id += 1
-    
-    # Save to database
-    save_state()
-    
-    return player
+    try:
+        # Insert player into database
+        with get_db_connection() as conn:
+            with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+                cur.execute("""
+                    INSERT INTO players (name, faction, level, experience) 
+                    VALUES (%s, %s, %s, %s) 
+                    RETURNING *
+                """, (data["name"], data["faction"], 1, 0))
+                
+                player = dict(cur.fetchone())
+                # Add empty collections that would be loaded on demand
+                player['territories'] = []
+                player['decks'] = []
+                
+                return player
+    except Exception as e:
+        print(f"Error registering player: {str(e)}")
+        return {"error": f"Database error: {str(e)}"}
 
 def handle_get_games():
-    return games
+    try:
+        return get_all_games()
+    except Exception as e:
+        print(f"Error getting games: {str(e)}")
+        return {"error": f"Database error: {str(e)}"}
 
 def handle_create_game(data):
-    global games, next_game_id
-    
     print(f"Creating game: {data}")
     
     # Validate data
@@ -106,32 +184,35 @@ def handle_create_game(data):
     if "creator" not in data:
         return {"error": "Creator information missing"}
     
-    # Create game data
-    game = {
-        "id": str(next_game_id),
-        "name": data["name"],
-        "max_players": data["max_players"],
-        "state": "waiting",
-        "players": [],
-        "started_at": None,
-        "turn": 0,
-        "active_player": None
-    }
-    
-    # Add creator as first player
-    game["players"].append({
-        "id": data["creator"]["id"],
-        "name": data["creator"]["name"],
-        "faction": data["creator"].get("faction", "runner")  # Default to runner if not specified
-    })
-    
-    games.append(game)
-    next_game_id += 1
-    
-    # Save to database
-    save_state()
-    
-    return game
+    try:
+        with get_db_connection() as conn:
+            with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+                # Insert the game
+                cur.execute("""
+                    INSERT INTO games (name, max_players, state, turn)
+                    VALUES (%s, %s, %s, %s)
+                    RETURNING *
+                """, (data["name"], data["max_players"], "waiting", 0))
+                
+                game = dict(cur.fetchone())
+                
+                # Add creator as first player in the junction table
+                cur.execute("""
+                    INSERT INTO game_players (game_id, player_id)
+                    VALUES (%s, %s)
+                """, (game["id"], data["creator"]["id"]))
+                
+                # Get player info to add to game data
+                cur.execute("SELECT * FROM players WHERE id = %s", (data["creator"]["id"],))
+                player = dict(cur.fetchone())
+                
+                # Add players list for return
+                game["players"] = [player]
+                
+                return game
+    except Exception as e:
+        print(f"Error creating game: {str(e)}")
+        return {"error": f"Database error: {str(e)}"}
 
 def handle_join_game(data):
     print(f"Joining game: {data}")
@@ -143,39 +224,39 @@ def handle_join_game(data):
     if "player" not in data:
         return {"error": "Player information missing"}
     
-    # Find the game
-    game = None
-    for g in games:
-        if g["id"] == data["game_id"]:
-            game = g
-            break
-    
-    if not game:
-        return {"error": "Game not found"}
-    
-    # Check if game is joinable
-    if game["state"] != "waiting":
-        return {"error": "Game already started"}
-    
-    if len(game["players"]) >= game["max_players"]:
-        return {"error": "Game is full"}
-    
-    # Check if player is already in the game
-    for p in game["players"]:
-        if p["id"] == data["player"]["id"]:
-            return game  # Player already in the game, return game data
-    
-    # Add player to the game
-    game["players"].append({
-        "id": data["player"]["id"],
-        "name": data["player"]["name"],
-        "faction": data["player"].get("faction", "runner")  # Default to runner if not specified
-    })
-    
-    # Save to database
-    save_state()
-    
-    return game
+    try:
+        # Get the game
+        game = get_game_by_id(data["game_id"])
+        
+        if not game:
+            return {"error": "Game not found"}
+        
+        # Check if game is joinable
+        if game["state"] != "waiting":
+            return {"error": "Game already started"}
+        
+        if len(game["players"]) >= game["max_players"]:
+            return {"error": "Game is full"}
+        
+        # Check if player is already in the game
+        for p in game["players"]:
+            if p["id"] == data["player"]["id"]:
+                return game  # Player already in the game, return game data
+        
+        # Add player to the game
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute("""
+                    INSERT INTO game_players (game_id, player_id)
+                    VALUES (%s, %s)
+                """, (game["id"], data["player"]["id"]))
+                
+                # Return updated game data
+                return get_game_by_id(data["game_id"])
+                
+    except Exception as e:
+        print(f"Error joining game: {str(e)}")
+        return {"error": f"Database error: {str(e)}"}
 
 def handle_start_game(data):
     print(f"Starting game: {data}")
@@ -184,36 +265,45 @@ def handle_start_game(data):
     if "game_id" not in data:
         return {"error": "Game ID missing"}
     
-    # Find the game
-    game = None
-    for g in games:
-        if g["id"] == data["game_id"]:
-            game = g
-            break
-    
-    if not game:
-        return {"error": "Game not found"}
-    
-    # Check if game can be started
-    if game["state"] != "waiting":
-        return {"error": "Game already started"}
-    
-    if len(game["players"]) < 2:
-        return {"error": "Not enough players"}
-    
-    # Update game state
-    game["state"] = "in_progress"
-    game["started_at"] = time.time()
-    game["turn"] = 1
-    game["active_player"] = game["players"][0]["id"]
-    
-    # Save to database
-    save_state()
-    
-    return game
+    try:
+        # Get the game
+        game = get_game_by_id(data["game_id"])
+        
+        if not game:
+            return {"error": "Game not found"}
+        
+        # Check if game can be started
+        if game["state"] != "waiting":
+            return {"error": "Game already started"}
+        
+        if len(game["players"]) < 2:
+            return {"error": "Not enough players"}
+        
+        # Update game state
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                started_at = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+                active_player = game["players"][0]["id"]
+                
+                cur.execute("""
+                    UPDATE games 
+                    SET state = %s, started_at = %s, turn = %s, active_player = %s
+                    WHERE id = %s
+                """, ("in_progress", started_at, 1, active_player, game["id"]))
+                
+                # Return updated game data
+                return get_game_by_id(data["game_id"])
+                
+    except Exception as e:
+        print(f"Error starting game: {str(e)}")
+        return {"error": f"Database error: {str(e)}"}
 
 def handle_get_territories():
-    return territories
+    try:
+        return get_all_territories()
+    except Exception as e:
+        print(f"Error getting territories: {str(e)}")
+        return {"error": f"Database error: {str(e)}"}
 
 def handle_claim_territory(data):
     print(f"Claiming territory: {data}")
@@ -225,27 +315,39 @@ def handle_claim_territory(data):
     if "territory_id" not in data:
         return {"error": "Territory ID missing"}
     
-    # Find the territory
-    territory = None
-    for t in territories:
-        if t["id"] == data["territory_id"]:
-            territory = t
-            break
-    
-    if not territory:
-        return {"error": "Territory not found"}
-    
-    # Check if territory is already claimed
-    if territory["owner"] is not None:
-        return {"error": "Territory already claimed"}
-    
-    # Claim the territory
-    territory["owner"] = data["player_id"]
-    
-    # Save to database
-    save_state()
-    
-    return territory
+    try:
+        # Get the territory
+        territory = get_territory_by_id(data["territory_id"])
+        
+        if not territory:
+            return {"error": "Territory not found"}
+        
+        # Check if territory is already claimed
+        if territory["owner_id"] is not None:
+            return {"error": "Territory already claimed"}
+        
+        # Claim the territory
+        with get_db_connection() as conn:
+            with conn.cursor() as cur:
+                # Update territory owner
+                cur.execute("""
+                    UPDATE territories 
+                    SET owner_id = %s
+                    WHERE id = %s
+                """, (data["player_id"], data["territory_id"]))
+                
+                # Add to player_territories junction table
+                cur.execute("""
+                    INSERT INTO player_territories (player_id, territory_id)
+                    VALUES (%s, %s)
+                """, (data["player_id"], data["territory_id"]))
+                
+                # Return updated territory data
+                return get_territory_by_id(data["territory_id"])
+                
+    except Exception as e:
+        print(f"Error claiming territory: {str(e)}")
+        return {"error": f"Database error: {str(e)}"}
 
 # Custom HTTP request handler
 class CyberRunnerHandler(http.server.SimpleHTTPRequestHandler):
@@ -353,14 +455,13 @@ class CyberRunnerHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
         
-        response = json.dumps(data)
+        # Use custom encoder to handle datetime objects
+        response = json.dumps(data, cls=CustomJSONEncoder)
         self.wfile.write(response.encode('utf-8'))
 
 def main():
-    # Only generate territories if they don't exist yet
-    if not territories:
-        generate_territories()
-        save_state()
+    # Initialize the database with territories if needed
+    generate_territories()
     
     try:
         # Create and start the HTTP server

@@ -17,7 +17,7 @@ signal game_joined(game_data)
 signal error_received(error_data)
 
 var peer = WebSocketPeer.new()
-var server_url = "ws://localhost:5000" # Local server for development
+var server_url = "ws://0.0.0.0:8000" # Server for development
 var is_connected = false
 var connection_in_progress = false
 var player_id = ""
