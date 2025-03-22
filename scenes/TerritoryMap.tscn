@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://b6tab545mqcio"]
 
-[ext_resource type="Script" path="res://scripts/TerritoryMap.gd" id="1_oa2dx"]
+[ext_resource type="Script" uid="uid://c1qx4vvx4o177" path="res://scripts/TerritoryMap.gd" id="1_oa2dx"]
 
 [sub_resource type="Environment" id="Environment_88rvf"]
 background_mode = 1

@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=8 format=3 uid="uid://cldrejsg11lmm"]
 
-[ext_resource type="Script" path="res://scripts/HexTile.gd" id="1_14bxf"]
+[ext_resource type="Script" uid="uid://dyfpy7gt7pnuf" path="res://scripts/HexTile.gd" id="1_14bxf"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_xexb5"]
 top_radius = 1.0
@@ -22,17 +22,17 @@ bottom_radius = 0.6
 height = 0.1
 radial_segments = 6
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gxhvl"]
-albedo_color = Color(0, 0.8, 1, 0.8)
-emission_enabled = true
-emission = Color(0, 0.8, 1, 1)
-emission_energy_multiplier = 0.2
-
 [sub_resource type="CylinderMesh" id="CylinderMesh_lv0o4"]
 top_radius = 0.4
 bottom_radius = 0.4
 height = 0.1
 radial_segments = 6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gxhvl"]
+albedo_color = Color(0, 0.8, 1, 0.8)
+emission_enabled = true
+emission = Color(0, 0.8, 1, 1)
+emission_energy_multiplier = 0.2
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_82kkx"]
 height = 0.2

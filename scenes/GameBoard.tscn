@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://ciakdh4fk81kp"]
 
-[ext_resource type="Script" path="res://scripts/GameBoard.gd" id="1_cepxq"]
-[ext_resource type="PackedScene" path="res://scenes/CardDisplay.tscn" id="2_l21ud"]
+[ext_resource type="Script" uid="uid://bxo1crn45qtib" path="res://scripts/GameBoard.gd" id="1_cepxq"]
+[ext_resource type="PackedScene" uid="uid://jynh313a52fa" path="res://scenes/CardDisplay.tscn" id="2_l21ud"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jefk8"]
 bg_color = Color(0.0784314, 0.0784314, 0.0941176, 1)

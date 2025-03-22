@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://cacpya8wrpyks"]
 
-[ext_resource type="Script" path="res://scripts/DeckBuilder.gd" id="1_t0g3d"]
-[ext_resource type="PackedScene" path="res://scenes/CardDisplay.tscn" id="2_y0xkh"]
+[ext_resource type="Script" uid="uid://e3fqmtixjwth" path="res://scripts/DeckBuilder.gd" id="1_t0g3d"]
+[ext_resource type="PackedScene" uid="uid://jynh313a52fa" path="res://scenes/CardDisplay.tscn" id="2_y0xkh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ysjha"]
 bg_color = Color(0.0784314, 0.0784314, 0.0941176, 1)
