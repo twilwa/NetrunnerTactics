@@ -1,11 +1,11 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=7 format=3 uid="uid://gmg2xuj7sgr3"]
 
-[ext_resource type="Script" path="res://scripts/Main.gd" id="1_kk9vb"]
-[ext_resource type="PackedScene" path="res://scenes/Login.tscn" id="2_v9mf8"]
-[ext_resource type="PackedScene" path="res://scenes/Lobby.tscn" id="3_w6v45"]
-[ext_resource type="PackedScene" path="res://scenes/DeckBuilder.tscn" id="4_7m5u3"]
+[ext_resource type="Script" uid="uid://dx0oj8717nuwv" path="res://scripts/Main.gd" id="1_kk9vb"]
+[ext_resource type="PackedScene" uid="uid://d2ogxlgh4nave" path="res://scenes/Login.tscn" id="2_v9mf8"]
+[ext_resource type="PackedScene" uid="uid://cialh1g66q5if" path="res://scenes/Lobby.tscn" id="3_w6v45"]
+[ext_resource type="PackedScene" uid="uid://cacpya8wrpyks" path="res://scenes/DeckBuilder.tscn" id="4_7m5u3"]
 [ext_resource type="PackedScene" path="res://scenes/TerritoryMap.tscn" id="5_n1ftk"]
-[ext_resource type="PackedScene" path="res://scenes/GameBoard.tscn" id="6_h8f9r"]
+[ext_resource type="PackedScene" uid="uid://ciakdh4fk81kp" path="res://scenes/GameBoard.tscn" id="6_h8f9r"]
 
 [node name="Main" type="Control"]
 layout_mode = 3

@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://cialh1g66q5if"]
 
-[ext_resource type="Script" path="res://scripts/Lobby.gd" id="1_0xtpo"]
+[ext_resource type="Script" uid="uid://ctkgeklqjhow3" path="res://scripts/Lobby.gd" id="1_0xtpo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rbdh5"]
 bg_color = Color(0.121569, 0.121569, 0.14902, 0.941176)
@@ -15,10 +15,10 @@ corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5kuft"]
-content_margin_left = 8
-content_margin_top = 8
-content_margin_right = 8
-content_margin_bottom = 8
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 bg_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 border_width_left = 1
 border_width_top = 1
