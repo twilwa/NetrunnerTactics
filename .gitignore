@@ -16,3 +16,15 @@ mono_crash.*.json
 
 # Ignore VSCode directory
 .vscode/
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+env/
+venv/
+
+# Ignore Mentat logs
+.mentat/logs/
