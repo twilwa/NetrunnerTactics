@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://btm58u8yh7r42"]
+
+[ext_resource type="Script" path="res://tests/WebFirstTestRunner.gd" id="1_5h08q"]
+[ext_resource type="Script" path="res://addons/gut/gut.gd" id="2_0o64e"]
+
+[node name="WebFirstTestRunner" type="Node"]
+script = ExtResource("1_5h08q")
+
+[node name="Gut" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_0o64e")
+_log_level = 3
+_directory1 = "res://tests/unit/web_tests"
+_directory2 = "res://tests/unit/card_tests"
+_double_strategy = 1
+_include_subdirectories = true
+_prefix = "test_"
+_suffix = ".gd"
+_inner_class_prefix = "Test"
