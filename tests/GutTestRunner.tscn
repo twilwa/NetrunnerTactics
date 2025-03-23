@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://cj1rgmme36t6o"]
+
+[ext_resource type="Script" path="res://tests/GutTestRunner.gd" id="1_tnf5l"]
+[ext_resource type="Script" path="res://addons/gut/gut.gd" id="2_ixoaf"]
+
+[node name="GutTestRunner" type="Node"]
+script = ExtResource("1_tnf5l")
+
+[node name="Gut" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_ixoaf")
+_directory1 = "res://tests/unit"
+_double_strategy = 1
+_include_subdirectories = true
+_prefix = "test_"
+_suffix = ".gd"
+_inner_class_prefix = "Test"
