@@ -13,7 +13,7 @@ import time
 import datetime
 import psycopg2
 import psycopg2.extras
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import urlparse
 
 # Custom JSON encoder to handle datetime objects
 class CustomJSONEncoder(json.JSONEncoder):
